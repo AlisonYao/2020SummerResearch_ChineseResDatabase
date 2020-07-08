@@ -1,1 +1,2 @@
 # 2020SummerResearch_ChineseResDatabase
+DO NOT MODIFY THE ORIGINAL EXCEL FILE

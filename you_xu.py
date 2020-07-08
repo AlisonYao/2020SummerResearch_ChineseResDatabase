@@ -1,5 +1,6 @@
 import openpyxl
-import 
+import csv
+import pandas as pd
 
 #open the workbook
 wb = openpyxl.load_workbook('NARA NY CECF DB check list 2020 Summer.xlsx')
@@ -42,7 +43,13 @@ def clean_entry_date(sheet):
         years.append(year)
         months.append(month)
         days.append(day)
+    
+    #new_column = pd.DataFrame({'new_header': ['new_value_1', 'new_value_2', 'new_value_3']})
+    df = pd.read_csv("you_xu.csv")
+    df["ENTRYDATE_YEAR"] = years
+    df['ENTRYDATE_MONTH'] = months
+    df['ENTRYDATE_DAY'] = days
+    df.to_csv("you_xu.csv", index=False)
+    
 
-    return lst
-
-print(clean_entry_date(sheet)[0])
+clean_entry_date(sheet)
