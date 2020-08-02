@@ -108,7 +108,58 @@ def clean_docdate(sheet):
     df['DOCDATE2'] = last
     df.to_csv("you_xu.csv", index=False)
 
+def clean_birthplace(sheet):
+    col = get_col_number(sheet, 'BIRTHPLACE')
+    lst = get_data_list(sheet, col)
+    print(len(lst))
+
+    country = []
+    state = []
+    city = []
+    for data in lst:
+        if data == None:
+            country.append('')
+            state.append('')
+            city.append('')
+        else:
+            placelist = [i.strip() for i in data.split(',')]
+            if len(placelist) == 1:
+                country.append(placelist[0])
+                state.append('')
+                city.append('')
+            elif len(placelist) == 2:
+                if len(placelist[1]) == 2:
+                    placelist[0] = placelist[0].replace('?', '')
+                    placelist[1] = placelist[1].replace('?', '')
+                    country.append('U.S.')
+                    state.append(placelist[1])
+                    city.append(placelist[0])
+                else:
+                    placelist[0] = placelist[0].replace('?', '')
+                    placelist[1] = placelist[1].replace('?', '')
+                    country.append(placelist[1])
+                    state.append(placelist[0])
+                    city.append('')
+            elif len(placelist) == 3:
+                placelist[0] = placelist[0].replace('?', '')
+                placelist[1] = placelist[1].replace('?', '')
+                placelist[2] = placelist[2].replace('?', '')
+                country.append(placelist[2])
+                state.append(placelist[1])
+                city.append(placelist[0])
+    print(len(country))
+    print(len(state))
+    print(len(city))
+    
+    df = pd.read_csv("you_xu.csv")
+    df["BIRTHPLACE_CITY/COUNTY"] = city
+    df['BIRTHPLACE_STATE/CITY'] = state
+    df['BIRTHPLACE_COUNTRY/REGION'] = country
+    df.to_csv("you_xu.csv", index=False)
+    
+
 if __name__ == '__main__':
-    clean_entry_date(sheet)
-    clean_entry_date2(sheet)
-    clean_docdate(sheet)
+    #clean_entry_date(sheet)
+    #clean_entry_date2(sheet)
+    #clean_docdate(sheet)
+    clean_birthplace(sheet)
