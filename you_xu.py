@@ -2,23 +2,26 @@ import openpyxl
 import csv
 import pandas as pd
 
-#open the workbook
+# open the workbook
 wb = openpyxl.load_workbook('NARA NY CECF DB check list 2020 Summer.xlsx')
-#open the sheet
+# open the sheet
 sheet = wb['CHINESE']
+
 
 def get_col_number(sheet, name):
     for col in range(1, sheet.max_column + 1):
         if sheet.cell(1, col).value == name:
             return col
 
+
 def get_data_list(sheet, col):
     lst = []
     for row in range(2, sheet.max_row + 1):
         lst.append(sheet.cell(row, col).value)
     return lst
-    
-#get all entry date infor into a list
+
+
+# get all entry date infor into a list
 def clean_entry_date(sheet):
     col = get_col_number(sheet, 'ENTRYDATE')
     lst = get_data_list(sheet, col)
@@ -53,7 +56,8 @@ def clean_entry_date(sheet):
     df['ENTRYDATE_MONTH'] = months
     df['ENTRYDATE_DAY'] = days
     df.to_csv("you_xu.csv", index=False)
-    
+
+
 def clean_entry_date2(sheet):
     col = get_col_number(sheet, 'ENTRYDATE2')
     lst = get_data_list(sheet, col)
@@ -89,6 +93,7 @@ def clean_entry_date2(sheet):
     df['ENTRYDATE2_DAY'] = days
     df.to_csv("you_xu.csv", index=False)
 
+
 def clean_docdate(sheet):
     col = get_col_number(sheet, 'DOCDATE')
     lst = get_data_list(sheet, col)
@@ -107,6 +112,7 @@ def clean_docdate(sheet):
     df["DOCDATE1"] = first
     df['DOCDATE2'] = last
     df.to_csv("you_xu.csv", index=False)
+
 
 def clean_birthplace(sheet):
     col = get_col_number(sheet, 'BIRTHPLACE')
@@ -150,16 +156,16 @@ def clean_birthplace(sheet):
     print(len(country))
     print(len(state))
     print(len(city))
-    
+
     df = pd.read_csv("you_xu.csv")
     df["BIRTHPLACE_CITY/COUNTY"] = city
     df['BIRTHPLACE_STATE/CITY'] = state
     df['BIRTHPLACE_COUNTRY/REGION'] = country
     df.to_csv("you_xu.csv", index=False)
-    
+
 
 if __name__ == '__main__':
-    #clean_entry_date(sheet)
-    #clean_entry_date2(sheet)
-    #clean_docdate(sheet)
+    # clean_entry_date(sheet)
+    # clean_entry_date2(sheet)
+    # clean_docdate(sheet)
     clean_birthplace(sheet)
