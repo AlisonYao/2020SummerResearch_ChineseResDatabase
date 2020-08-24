@@ -7,6 +7,9 @@ wb = openpyxl.load_workbook('NARA NY CECF DB check list 2020 Summer.xlsx')
 # open the sheet
 sheet = wb['CHINESE']
 
+wb_street = openpyxl.load_workbook('street.xlsx')
+sheet_street = wb_street['STREET']
+
 
 def get_col_number(sheet, name):
     for col in range(1, sheet.max_column + 1):
@@ -117,7 +120,7 @@ def clean_docdate(sheet):
 def clean_birthplace(sheet):
     col = get_col_number(sheet, 'BIRTHPLACE')
     lst = get_data_list(sheet, col)
-    print(len(lst))
+    #print(len(lst))
 
     country = []
     state = []
@@ -153,9 +156,9 @@ def clean_birthplace(sheet):
                 country.append(placelist[2])
                 state.append(placelist[1])
                 city.append(placelist[0])
-    print(len(country))
-    print(len(state))
-    print(len(city))
+    #print(len(country))
+    #print(len(state))
+    #print(len(city))
 
     df = pd.read_csv("you_xu.csv")
     df["BIRTHPLACE_CITY/COUNTY"] = city
@@ -164,8 +167,52 @@ def clean_birthplace(sheet):
     df.to_csv("you_xu.csv", index=False)
 
 
+def clean_street2(sheet):
+    col = get_col_number(sheet, 'STREET2')
+    lst = get_data_list(sheet, col)
+
+    number = []
+    strt = []
+    tp = []
+    rm = []
+
+    for data in lst:
+        if data == None:
+            number.append(None)
+            strt.append(None)
+            tp.append(None)
+            rm.append(None)
+        else:
+            data = data.replace('.', '')
+            data1 = [i.strip() for i in data.split(',')]
+            if len(data1) == 2:
+                rm.append(data1[1])
+            else:
+                rm.append(None)
+            for i in range(len(data1[0])):
+                if data1[0][i] == " ":
+                    index1 = i
+                    break
+            for j in range(len(data1[0])-1, -1, -1):
+                if data1[0][j] == ' ':
+                    index2 = j
+                    break
+            number.append(data1[0][0:index1].replace('?', ""))
+            strt.append(data1[0][index1 + 1: index2].replace('?', ''))
+            tp.append(data1[0][index2 + 1:].replace('?', ''))
+
+    df = pd.read_csv("you_xu.csv")
+    df["STREET2_NUMBER"] = number
+    df['STREET2_STREET'] = strt
+    df['STREET2_TYPE'] = tp
+    df['STREET2_ROOM'] = rm
+    df.to_csv("you_xu.csv", index=False)
+
+
+
 if __name__ == '__main__':
     # clean_entry_date(sheet)
     # clean_entry_date2(sheet)
     # clean_docdate(sheet)
-    clean_birthplace(sheet)
+    # clean_birthplace(sheet)
+    clean_street2(sheet_street)
