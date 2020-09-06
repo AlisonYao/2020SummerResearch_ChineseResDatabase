@@ -1,6 +1,8 @@
 import openpyxl
 import csv
 import pandas as pd
+import Levenshtein
+import copy
 
 # open the workbook
 wb = openpyxl.load_workbook('NARA NY CECF DB check list 2020 Summer.xlsx')
@@ -208,11 +210,48 @@ def clean_street2(sheet):
     df['STREET2_ROOM'] = rm
     df.to_csv("you_xu.csv", index=False)
 
+def clean_hometown(sheet):
+    col = get_col_number(sheet, 'HOMETOWN')
+    lst = get_data_list(sheet, col)
+    print(len(lst))
+    final = [None] * len(lst)
+    remain = [i for i in range(len(lst))]
 
+    while len(remain) > 0:
+        remain_2 = []
+        similar_index = []
+        similar = []
+        current_index = 0
+        while lst[remain[current_index]] is None:
+            current_index += 1
+        current = lst[remain[current_index]]
+
+        similar.append(current)
+        similar_index.append(remain[current_index])
+        for j in range(current_index + 1, len(remain)):
+            if lst[remain[j]] is not None:
+                other = lst[remain[j]]
+                other_index = remain[j]
+                #print(current, other, Levenshtein.ratio(current, other))
+                if Levenshtein.ratio(current, other) > 0.95:
+                    similar.append(other)
+                    similar_index.append(other_index)
+                else:
+                    remain_2.append(other_index)
+        median = Levenshtein.median(similar)
+        for index in similar_index:
+            final[index] = median
+        remain = copy.deepcopy(remain_2)
+
+    print(len(final))
+    df = pd.read_csv("you_xu.csv")
+    df["HOMETOWN_NEW"] = final
+    df.to_csv("you_xu.csv", index=False)
 
 if __name__ == '__main__':
     # clean_entry_date(sheet)
     # clean_entry_date2(sheet)
     # clean_docdate(sheet)
     # clean_birthplace(sheet)
-    clean_street2(sheet_street)
+    # clean_street2(sheet_street)
+    clean_hometown(sheet_street)
