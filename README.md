@@ -17,6 +17,7 @@ In file you_xu.csv, each column has the following meaning
 14. STREET2_STREET: correspond to column 'STREET2', this shows the street name; some may also be the specific location name, like university
 15. STREET2_TYPE: correspond to column 'STREET2', this shows whether it is street ,road, or avenue, etc.
 16. STREET2_ROOM: correspond to column 'STREET2', this shows room number or flat number
+17. HOMETOWN_NEW: correspond to column 'HOMETOWN', this correct the misspelling and organizes the string format. Some error may still exist since manual check hasn't finished yet
 
 In file you_xu.py, each function deal with one column, as following:
 1. 'clean_entry_date(sheet)': clean the column 'ENTRYDATE'; output column 'ENTRYDATE_YEAR', 'ENTRYDATE_MONTH', 'ENTRYDATE_DAY' in csv file
@@ -25,4 +26,5 @@ In file you_xu.py, each function deal with one column, as following:
 4. 'clean_birthplace(sheet)': clean the column 'BIRTHPLACE'; output column 'BIRTHPLACE_COUNTRY/REGION', 'BIRTHPLACE_STATE/CITY', 'BIRTHPLACE_CITY/COUNTY' in csv file
     a. before the program, the excel file has been manually checked for correction and reformat
     b. even though all data has been manually checked, some data may still inaccurate
-5. 'clean_street2(sheet_street)': clean the column 'STREET2'; out put column 'STREET2_NUMBER', 'STREET2_STREET', 'STREET2_TYPE', 'STREET2_ROOM' in csv file
+5. 'clean_street2(sheet_street)': clean the column 'STREET2'; output column 'STREET2_NUMBER', 'STREET2_STREET', 'STREET2_TYPE', 'STREET2_ROOM' in csv file
+6. 'clean_hometown(sheet_street)': correct the misspelling and organizes the string format of column 'HOMETOWN'; it applies Levenshtein module and combines items with more than 93% similarities by replacing them with the meidian string; output column 'HOMETOWN_NEW' in csv file
