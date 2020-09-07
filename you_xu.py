@@ -213,10 +213,9 @@ def clean_street2(sheet):
 def clean_hometown(sheet):
     col = get_col_number(sheet, 'HOMETOWN')
     lst = get_data_list(sheet, col)
-    print(len(lst))
     final = [None] * len(lst)
     remain = [i for i in range(len(lst))]
-
+    print(Levenshtein.ratio('SICHUAN', "SI CHUAN"))
     while len(remain) > 0:
         remain_2 = []
         similar_index = []
@@ -233,7 +232,7 @@ def clean_hometown(sheet):
                 other = lst[remain[j]]
                 other_index = remain[j]
                 #print(current, other, Levenshtein.ratio(current, other))
-                if Levenshtein.ratio(current, other) > 0.95:
+                if Levenshtein.ratio(current, other) > 0.93:
                     similar.append(other)
                     similar_index.append(other_index)
                 else:
@@ -243,7 +242,6 @@ def clean_hometown(sheet):
             final[index] = median
         remain = copy.deepcopy(remain_2)
 
-    print(len(final))
     df = pd.read_csv("you_xu.csv")
     df["HOMETOWN_NEW"] = final
     df.to_csv("you_xu.csv", index=False)
