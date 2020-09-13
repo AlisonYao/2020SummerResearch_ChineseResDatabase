@@ -1,7 +1,7 @@
 # 2020SummerResearch_ChineseResDatabase
 
 DO NOT MODIFY THE ORIGINAL EXCEL FILE
-In file you_xu.csv, each column has the following meaning
+In file new_data.csv, each column has the following meaning
 
 1. Number: the unique identifier that correspond to the excel file 'NARA NY CECF DB check list 2020 Summer'
 2. ENTRYDATE_YEAR: correspond to column 'ENTRYDATE', this shows what year it is
