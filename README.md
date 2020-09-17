@@ -29,6 +29,21 @@ In file new_data.csv, each column has the following meaning
 24. SPONSOR_NAME1: correspond to the first sponsor name in column 'SPONSOR' if there is any.
 25. SPONSOR_NAME2: correspond to the second sponsor name in column 'SPONSOR' if there is any.
 26. SPONSOR_NAME3: correspond to the third sponsor name in column 'SPONSOR' if there is any.
+27. OCUPATION1: correspond to the column 'OCUPATION1', I cleaned up the misspelling and merge similar ocupation together.
+28. LEGALSTATUS1: it indicates the corresponding legal status of the "OCUPATION1" column.
+29. STATUSINFO1: it indicates whether the person owns that legal status("LEGALSTATUS1") or affiliated to that legal status.
+30. OCUPATION2: correspond to the column 'OCUPATION2', I cleaned up the misspelling and merge similar ocupations together.
+31. LEGALSTATUS2: it indicates the corresponding legal status of the "OCUPATION2" column.
+32. STATUSINFO2: it indicates whether the person owns that legal status("LEGALSTATUS2") or affiliated to that legal status.
+33. OCUPATION3: correspond to the column 'OCUPATION3', I cleaned up the misspelling and merge similar ocupation together.
+34. LEGALSTATUS3: it indicates the corresponding legal status of the "OCUPATION3" column.
+35. STATUSINFO3: it indicates whether the person owns that legal status("LEGALSTATUS3") or affiliated to that legal status.
+36. PORT: it corresponds to column 'PORT'.
+37. PORT(CITY): I split the 'PORT' column into city and state, this indicates its corresponding city.
+38. PORT(STATE): I split the 'PORT' column into city and state, this indicates its corresponding state.
+39. STREET1: correspond to column 'STREET1'
+40. CITY1: correspond to column 'CITY1'
+41. STATE1: correspond to column 'STATE1'
 
 In file you_xu.py, each function deal with one column, as following:
 
@@ -42,3 +57,9 @@ In file you_xu.py, each function deal with one column, as following:
 6. 'clean_hometown(sheet_street)': correct the misspelling and organizes the string format of column 'HOMETOWN'; it applies Levenshtein module and combines items with more than 93% similarities by replacing them with the meidian string; output column 'HOMETOWN_NEW' in csv file
 
 In the directory Alison_code, you can find detailed implementation of data cleaning. Each ipynb file deals with one column (see file name). Here, STREET2 column did not have any code because there was only about 20-30 misspellings, so I corrected them by hand.
+
+In the directory Jennie_code:
+1. LegalStatusUpdate.csv: it is a map between certain ocupations and their corresponding legal statuses.
+2. LegalStatusUpdate.xlsx: it's the same with the 'LegalStatusUpdate.csv'.
+3. Occupation.ipynb: clean the column 'OCUPATION1','OCUPATION2','OCUPATION3',and output “LEGALSTATUS1","STATUSINFO1","LEGALSTATUS2","STATUSINFO2","LEGALSTATUS3","STATUSINFO3"
+4. PortandAddress.ipynb: clean the column 'PORT' and split it into new column "PORT(CITY)" and "PORT(STATE)"; clean the column 'STREET1', 'CITY1', 'STATE1'.
